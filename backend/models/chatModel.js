@@ -6,6 +6,11 @@ const chatSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    tutorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tutor',
+        required: true
+    },
     senderType: {
         type: String,
         enum: ['User', 'Admin'],

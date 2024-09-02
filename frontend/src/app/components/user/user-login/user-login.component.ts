@@ -196,8 +196,8 @@ export class UserLoginComponent implements OnInit{
       .subscribe({
         next: (res) => {
           console.log(res);
-          const encryptedUserId = this.encryptionService.encrypt(res.data._id);
-          localStorage.setItem("userId", encryptedUserId);
+         //const encryptedUserId = this.encryptionService.encrypt(res.data._id);
+          localStorage.setItem("userId", res.data.userId);
           sessionStorage.setItem('STUDENT', "student");
           sessionStorage.setItem('auth_token', res.token);
           this.toast.showSuccess(res.message, 'Success');
@@ -219,7 +219,7 @@ export class UserLoginComponent implements OnInit{
       .subscribe({
         next: (res) => {
           //console.log(res.token);
-          
+          localStorage.setItem("tutorId", res.data.tutorId);
           sessionStorage.setItem('TUTOR', "tutor");
           sessionStorage.setItem('auth_token', res.token);
           this.toast.showSuccess(res.message, 'Success');

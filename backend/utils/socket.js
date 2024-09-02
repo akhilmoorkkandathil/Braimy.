@@ -1,7 +1,6 @@
 const { Server } = require("socket.io");
 const chatController = require("../controllers/chatController");
 const Chat = require("../models/chatModel");
-const User = require("../models/userModel");
 
 const onlineUsers = new Map();
 
@@ -15,23 +14,27 @@ const initializeSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("Socket.io user connected");
+    console.log("Socket.io user connectedm - util socket.js");
     socket.emit("Server sended to the client without any request")
 
-    socket.on("joinChat", ({ userId, userType }) => {
-      if (userType === "Admin") {
-        socket.join("admin");
+    socket.on("joinChat", ({ id, userType }) => {
+      if (userType === "Tutor") {
+        socket.join(id);
+        console.log("Tutor joined");
       } else {
-        socket.join(userId);
-        onlineUsers.set(userId, socket.id);
-        console.log(`onlineUsers: ${Array.from(onlineUsers.keys())}`);
+        socket.join(id);
+        console.log("Student joined");
+        //onlineUsers.set(id, socket.id);
+        //console.log(`onlineUsers: ${Array.from(onlineUsers.keys())}`);
       }
-      io.to("admin").emit("onlineUsers", Array.from(onlineUsers.keys()));
+      //io.to("admin").emit("onlineUsers", Array.from(onlineUsers.keys()));
     });
 
-    socket.on("sendMessage", async ({ userId, senderType, message }) => {
+    socket.on("sendMessage", async ({ userId,tutorId,senderType, message }) => {
+      console.log(userId,tutorId);
       const chatMessage = new Chat({
         userId,
+        tutorId,
         senderType,
         message,
       });
@@ -46,7 +49,7 @@ const initializeSocket = (server) => {
           createdAt: chatMessage.createdAt,
         });
       } else {
-        io.to("admin").emit("messageReceived", {
+        io.to(tutorId).emit("messageReceived", {
           userId: chatMessage.userId,
           senderType: chatMessage.senderType,
           message: chatMessage.message,

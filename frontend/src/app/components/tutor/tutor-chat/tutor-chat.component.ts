@@ -1,9 +1,9 @@
-import { Component , OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
-// import { Subscription } from 'rxjs';
-// import { ChatServiceService } from '../../../services/chatService/chat-service.service';
-// import { ChatMessage } from '../../../interfaces/chatMessage';
+import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ChatService } from '../../../services/chatServices/chatService/chat.service';
+import { AdminServiceService } from '../../../services/adminService/admin-service.service';
+import { User } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-tutor-chat',
@@ -13,34 +13,52 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './tutor-chat.component.css'
 })
 export class TutorChatComponent {
-  // @ViewChild('chatBox') private chatBox!: ElementRef;
-  // messages: ChatMessage[] = [];
-  // newMessage: string = '';
-  // roomId: string = 'user-tutor-room';
 
-  // constructor(private chatService: ChatServiceService) { }
+  tutorInput=''
+  userId = '';
+  tutorList:User[];
+  tutorId=''
+  userType = "Admin"
 
-  // ngOnInit() {
-  //   this.chatService.joinChat('tutor', this.roomId);
+  constructor(private chatService:ChatService, private studentService:AdminServiceService){}
 
-  //   this.chatService.getMessages().subscribe((message: ChatMessage) => {
-  //     this.messages.push(message);
-  //     this.scrollToBottom();
-  //   });
-  // }
 
-  // sendMessage() {
-  //   if (this.newMessage.trim()) {
-  //     this.chatService.sendMessage(this.roomId, this.newMessage, 'tutor');
-  //     this.messages.push({ message: this.newMessage, sender: 'tutor' });
-  //     this.newMessage = '';
-  //     this.scrollToBottom();
-  //   }
-  // }
+  ngOnInit(): void {
+      this.chatService.connect()
+      this.tutorId = localStorage.getItem('tutorId');
+      this.fetchTutors();
+      this.joinChat()
+  }
 
-  // private scrollToBottom(): void {
-  //   try {
-  //     this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
-  //   } catch (err) { }
-  // }
+
+  joinChat(){
+    console.log();
+    
+    this.chatService.joinChat(this.tutorId,this.userType);
+  }
+  fetchTutors(){
+    this.studentService.getUsersList().subscribe((res)=>{
+      this.tutorList = res.data;
+      console.log(res.data);
+      
+    })
+  }
+
+
+  selected:undefined | boolean =false;
+
+  selectedStudent: User;
+
+  selectUser(student:User) {
+    console.log(student);
+    
+    this.selected = true;
+    this.userId = student.userId
+    this.selectedStudent = student;
+  }
+
+  sendMessage(){
+    this.chatService.sendMessage(this.userId,this.tutorId,this.userType, this.tutorInput);
+  }
+
 }

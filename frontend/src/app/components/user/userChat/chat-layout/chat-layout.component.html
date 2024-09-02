@@ -1,19 +1,27 @@
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-4 col-lg-3 chat-sidebar bg-light">
-            <h3 class="chat-heading p-3">Chats</h3>
-            @if (userList) {
-                @for (user of userList; track $index) {
-
-                    <div class="user-list-item" (click)="selectUser()">
-                        <img src="https://via.placeholder.com/40" class="rounded-circle mr-2" alt="User Image">
-                        <p>{{user.name}}</p>
-                    </div>
-                }
-            }
-            <!-- Add more user list items as needed -->
+       <!-- Sidebar -->
+<div class="col-md-4 col-lg-3 chat-sidebar bg-light">
+    <h3 class="chat-heading p-3">Chats</h3>
+    <div *ngIf="tutorList">
+        <div *ngFor="let tutor of tutorList; let i = index" class="user-list-item p-2 border-bottom" (click)="selectUser(tutor)">
+            <div class="d-flex align-items-center">
+                <!-- Left side with profile image -->
+                <img [src]="tutor.photoUrl" class="profile-img rounded-circle mr-2" alt="User Image">
+                <!-- Center with name and message -->
+                <div class="flex-grow-1">
+                    <p class="mb-0 font-weight-bold">{{ tutor.username }}</p>
+                    <small class="text-muted">Small font</small>
+                </div>
+                <!-- Right side with last seen or online status -->
+            </div>
+            <div class="online-status">
+                <small class="text-muted">Today</small>
+            </div>
         </div>
+    </div>
+</div>
+
 
         <!-- Chat Body -->
         <div class="col-md-8 col-lg-9 chat-body">
@@ -21,10 +29,10 @@
            @if (selected) {
             <div class="chat-header d-flex align-items-center justify-content-between p-3 border-bottom">
                 <div class="d-flex align-items-center">
-                    <img [src]="selectedUser.image" class="rounded-circle mr-3" alt="Profile Image">
+                    <img [src]="selectedTutor.photoUrl" class="rounded-circle mr-3" alt="Profile Image">
                     <div>
-                        <h4 class="mb-0">{{ selectedUser.name }}</h4>
-                        <h5 class="last-seen">Last seen: {{ selectedUser.lastSeen }}</h5>
+                        <h4 class="mb-0">{{ selectedTutor.username }}</h4>
+                        <h5 class="last-seen">Last seen: </h5>
                     </div>
                 </div>
                 <button class="btn btn-outline-primary">
@@ -45,8 +53,8 @@
                 <button class="btn btn-outline-secondary">
                     <i class="fas fa-smile"></i>
                 </button>
-                <input type="text" class="search form-control mx-2" placeholder="Type a message">
-                <button class="btn btn-primary">Send</button>
+                <input type="text" class="search form-control mx-2" placeholder="Type a message" [(ngModel)]="userInput" (keyup.enter)="sendMessage()">
+                <button (click)="sendMessage()" class="btn btn-primary">Send</button>
             </div>
            }
            @else {

@@ -1,7 +1,9 @@
 .chat-sidebar {
-    height: 80vh;
+    height: 100vh;
     overflow-y: auto;
     border-right: 1px solid #ddd;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 .chat-heading{
     background-color: rgb(125, 125, 255);
@@ -11,7 +13,7 @@
 }
 
 .chat-body {
-    height: 80vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -26,7 +28,11 @@
     height: 50px;
     object-fit: cover;
 }
-
+.profile-img {
+    width: 40px;  /* Set width to your preferred size */
+    height: 40px; /* Set height to match width for a square */
+    object-fit: cover; /* Ensures the image covers the container */
+}
 .chat-header button {
     margin-left: auto; /* Pushes the button to the far right */
 }
@@ -63,4 +69,8 @@
 .search{
     text-decoration: none;
     box-shadow: none;
+}
+
+.online-status{
+    margin-left: auto; 
 }

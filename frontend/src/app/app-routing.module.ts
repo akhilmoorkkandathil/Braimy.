@@ -95,9 +95,11 @@ const routes: Routes = [
       { path: "dashboard", component: TutorDashboardComponent },
       { path: "classes", component: TutorClassesComponent },
       { path: "courses", component: TutorCoursesComponent },
-      { path: "chat", component: TutorChatComponent },
       { path: "notification", component: TutorNotificationsComponent },
     ]
+  },
+  {
+    path: 'tutor/chat', component: TutorChatComponent,
   },
   {
     path: 'coordinator', component: CoordinatorLayoutComponent,
@@ -130,9 +132,12 @@ const routes: Routes = [
       { path: "mentor", component: SmartLearnMentorComponentComponent },
       {path:"course-showcase/:id",component:UserCourseComponent},
       {path:'payment',component:UserPaymentComponent},
-      {path:'chat',component:ChatLayoutComponent}
+      //{path:'chat',component:ChatLayoutComponent}
 
     ]
+  },
+  {
+    path: 'user/chat', component: ChatLayoutComponent,
   },
   {path:'error',component:InternetErrorComponent},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
