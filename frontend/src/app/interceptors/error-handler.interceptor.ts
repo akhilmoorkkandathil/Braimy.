@@ -5,7 +5,6 @@ import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpStatusCode } from '../interfaces/statusCode';
 import { ToastService } from '../services/toastService/toast.service';
-import { log } from 'console';
 
 
 @Injectable()

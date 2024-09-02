@@ -34,7 +34,6 @@ import { CoordinatorClassesComponent } from './components/coordinator/coordinato
 import { CoordinatorNotificationsComponent } from './components/coordinator/coordinator-notifications/coordinator-notifications.component';
 import { UserCoursesComponent } from './components/user/user-courses/user-courses.component';
 import { UserNotificationComponent } from './components/user/user-notification/user-notification.component';
-import { UserChatComponent } from './components/user/user-chat/user-chat.component';
 import { AdminAddCourseComponent } from './components/admin/admin-add-course/admin-add-course.component';
 import { AdminAddPaymentComponent } from './components/admin/admin-add-payment/admin-add-payment.component';
 import { AdminAddExpenseComponent } from './components/admin/admin-add-expense/admin-add-expense.component';
@@ -47,6 +46,7 @@ import { UserCourseComponent } from './components/user/user-course/user-course.c
 import { SmartLearnMentorComponentComponent } from './components/user/smart-learn-mentor-component/smart-learn-mentor-component.component';
 import { UserPaymentComponent } from './components/user/user-payment/user-payment.component';
 import { InternetErrorComponent } from './components/shared/error-page/internet-error/internet-error.component';
+import { ChatLayoutComponent } from './components/user/userChat/chat-layout/chat-layout.component';
 
 
 
@@ -129,13 +129,15 @@ const routes: Routes = [
       { path: "notification", component: UserNotificationComponent },
       { path: "mentor", component: SmartLearnMentorComponentComponent },
       {path:"course-showcase/:id",component:UserCourseComponent},
-      {path:'payment',component:UserPaymentComponent}
+      {path:'payment',component:UserPaymentComponent},
+      {path:'chat',component:ChatLayoutComponent}
 
     ]
   },
   {path:'error',component:InternetErrorComponent},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
