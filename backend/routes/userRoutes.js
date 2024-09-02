@@ -23,16 +23,11 @@ userRouter.get('/getTutorUser',userController.getTutorUser);
 userRouter.post('/subscribe',userController.subscribe);
 userRouter.get('/blockStatus',userController.blockStatus);
 userRouter.get('/getStudentClasses',userController.getStudentClasses);
-<<<<<<< HEAD
-userRouter.post('gemini',userController.geminiResult);
-userRouter.get('/get_old_chats',userController.getOldChats)
-=======
 userRouter.get('/getCourseData/:id',userController.getCourseData);
 userRouter.get('/searchCourses',userController.getCoursesData);
 userRouter.get('/getStudentData',userController.getStudentData);
 userRouter.post('/payment',userController.payment);
 userRouter.post('/payment_success',userController.paymentSucess);
 userRouter.get('/get_old_chats',userController.getOldChats);
->>>>>>> live_chat_branch
 
 module.exports = userRouter;

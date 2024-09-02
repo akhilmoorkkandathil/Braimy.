@@ -34,10 +34,7 @@ import { CoordinatorClassesComponent } from './components/coordinator/coordinato
 import { CoordinatorNotificationsComponent } from './components/coordinator/coordinator-notifications/coordinator-notifications.component';
 import { UserCoursesComponent } from './components/user/user-courses/user-courses.component';
 import { UserNotificationComponent } from './components/user/user-notification/user-notification.component';
-<<<<<<< HEAD
-=======
 import { UserChatComponent } from './components/user/user-chat/user-chat.component';
->>>>>>> live_chat_branch
 import { AdminAddCourseComponent } from './components/admin/admin-add-course/admin-add-course.component';
 import { AdminAddPaymentComponent } from './components/admin/admin-add-payment/admin-add-payment.component';
 import { AdminAddExpenseComponent } from './components/admin/admin-add-expense/admin-add-expense.component';
@@ -46,16 +43,11 @@ import { AdminAddTutorComponent } from './components/admin/admin-add-tutor/admin
 import { AdminAddCoordinatorComponent } from './components/admin/admin-add-coordinator/admin-add-coordinator.component';
 import { CoordinatorStuedentsComponent } from './components/coordinator/coordinator-stuedents/coordinator-stuedents.component';
 import { ManageStudentComponent } from './components/coordinator/manage-student/manage-student.component';
-<<<<<<< HEAD
-import { SmartLearnMentorComponent } from './components/user/smart-learn-mentor/smart-learn-mentor.component';
-import { UserChatComponent } from './components/user/user-chat/user-chat.component';
-=======
 import { UserCourseComponent } from './components/user/user-course/user-course.component';
 import { SmartLearnMentorComponentComponent } from './components/user/smart-learn-mentor-component/smart-learn-mentor-component.component';
 import { UserPaymentComponent } from './components/user/user-payment/user-payment.component';
 import { InternetErrorComponent } from './components/shared/error-page/internet-error/internet-error.component';
 
->>>>>>> live_chat_branch
 
 
 
@@ -135,14 +127,9 @@ const routes: Routes = [
       { path: "dashboard", component: UserDashboardComponent },
       { path: "courses", component: UserCoursesComponent },
       { path: "notification", component: UserNotificationComponent },
-<<<<<<< HEAD
-      { path: "mentor", component: SmartLearnMentorComponent },
-      { path: "chat", component: UserChatComponent },
-=======
       { path: "mentor", component: SmartLearnMentorComponentComponent },
       {path:"course-showcase/:id",component:UserCourseComponent},
       {path:'payment',component:UserPaymentComponent}
->>>>>>> live_chat_branch
 
     ]
   },

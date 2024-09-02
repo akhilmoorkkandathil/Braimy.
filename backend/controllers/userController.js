@@ -9,17 +9,15 @@ const {CreateError} = require('../utils/error');
 const {sendVerifyMail} = require('../utils/sendVerifyMail');
 const moment = require('moment');
 const studentModel = require('../models/userModel');
-<<<<<<< HEAD
 const model = require('../utils/gemini')
 const chatModel = require('../models/chatModel')
-=======
+
 const commonMethode = require('../utils/commonMethods');
 const commonMethods = require('../utils/commonMethods');
 const courseModel = require('../models/courseModel')
 const cloudinary = require('../utils/cloudinary');
 const Razorpay = require('razorpay');
 const paymentModel = require('../models/paymentModel')
-const chatModel = require('../models/chatModel')
 const razorpayInstance = new Razorpay({ 
 
     // Replace with your key_id 
@@ -29,7 +27,7 @@ const razorpayInstance = new Razorpay({
     key_secret: process.env.RZP_KEY_SECRET 
     }); 
 
->>>>>>> live_chat_branch
+
 
 
 module.exports = {
@@ -43,11 +41,7 @@ module.exports = {
             }
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(req.body.password, salt);
-<<<<<<< HEAD
             //console.log(req.body);
-=======
-            // console.log(req.body);
->>>>>>> live_chat_branch
             const newUser = new userModel({
                 username:req.body.fullName,
                 email: req.body.email,
@@ -56,11 +50,7 @@ module.exports = {
             });
             await newUser.save();
             OTP = await sendVerifyMail(req.body.fullName,req.body.email,newUser._id);
-<<<<<<< HEAD
             //console.log(`check otp inisde register fn =`, OTP);
-=======
-            // console.log(`check otp inisde register fn =`, OTP);
->>>>>>> live_chat_branch
             const newUserOtp = new userOtpModel({
                 userId: newUser._id,
                 OTP: OTP
@@ -77,11 +67,7 @@ module.exports = {
                
             
         } catch (error) {
-<<<<<<< HEAD
             //console.log("Register Failes",  error);
-=======
-            // console.log("Register Failes",  error);
->>>>>>> live_chat_branch
             return next(CreateError(500,"Registration failed"))
         }
     },
@@ -115,27 +101,16 @@ module.exports = {
     setOtp : async (req,res,next)=>{
         try {
             const userId = req.params.userId;
-<<<<<<< HEAD
             //console.log(userId);
-=======
-            // console.log(userId);
->>>>>>> live_chat_branch
             const user = await userModel.findById(userId);
             if(!user)
                 return next(CreateError(404, "User not found"));
     
             const OTP = await sendVerifyMail(user.fullName,user.email);
-<<<<<<< HEAD
             //console.log("OTP",OTP);
             const otpExists = await userOtpModel.findOne({userId:user._id});
 
             //console.log("otpExists",otpExists);
-=======
-            // console.log("OTP",OTP);
-            const otpExists = await userOtpModel.findOne({userId:user._id});
-
-            // console.log("otpExists",otpExists);
->>>>>>> live_chat_branch
             if(otpExists)
             {
                 await userOtpModel.findOneAndDelete({userId:user._id}); 
@@ -150,20 +125,12 @@ module.exports = {
     
             if(newOTP)
             {
-<<<<<<< HEAD
                 //console.log(" new otp: ", newOTP);
-=======
-                // console.log(" new otp: ", newOTP);
->>>>>>> live_chat_branch
                 return next(CreateSuccess(200, "OTP has been send!"));
             }
             return next(CreateError(400, "Failed to sent OTP!"));
         } catch (error) {
-<<<<<<< HEAD
             //console.log(error.message);
-=======
-            // console.log(error.message);
->>>>>>> live_chat_branch
             return next(CreateError(500, "Something went wrong while sending the OTP."))
         }
     },
@@ -171,11 +138,6 @@ module.exports = {
     verifyOtp : async (req,res,next)=>{
         try
         {
-<<<<<<< HEAD
-            ////console.log(`inside verifymail req.body ${req.body.otp} and req.query = ${req.query.userId}`);
-=======
-            //// console.log(`inside verifymail req.body ${req.body.otp} and req.query = ${req.query.userId}`);
->>>>>>> live_chat_branch
             
             const user = await userModel.findById(req.query.userId);
             if(user.isVerified)
@@ -201,11 +163,7 @@ module.exports = {
         }
         catch(e)
         {    
-<<<<<<< HEAD
             //console.log(e);
-=======
-            // console.log(e);
->>>>>>> live_chat_branch
             let errorMessage = "An error occurred while verifying the email."
             return next(CreateError(406, errorMessage));
         }
@@ -234,13 +192,8 @@ module.exports = {
                 //await newUserOtp.save();
                 return next(CreateSuccess(200, 'OTP has been resent.'));
         } catch (error) {
-<<<<<<< HEAD
-            //console.log(error.message);
-            return next(CreateSuccess(402, 'Failed to resed OTP.'));
-=======
             // console.log(error.message);
             return next(CreateError(402, 'Failed to resed OTP.'));
->>>>>>> live_chat_branch
         }
     },
     userLogin : async (req,res,next)=>{
@@ -278,21 +231,8 @@ module.exports = {
                 userName: user.username,
                 email: user.email
             };
-<<<<<<< HEAD
-            //console.log(userData);
-    
-            res.cookie("user_access_token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "Login Success",
-                    data: userData,
-                    user_token: token
-                });
-=======
             // console.log(userData);
             return next(CreateSuccess(200, 'User Login Sucessfully',userData,token));
->>>>>>> live_chat_branch
     
         } catch (error) {
             // console.error('Error during login:', error); // Log the error for debugging
@@ -417,30 +357,6 @@ module.exports = {
         }
     },
     updateStudent:async(req,res,next)=>{
-<<<<<<< HEAD
-        //console.log(req.body.studentData);
-        const studentId = req.params.id;
-        const { studentName, studentClass, phone, password, email } = req.body.studentData;
-        try {
-        let student = await userModel.findById(studentId);
-        //console.log(student);
-        if (!student) {
-            return next(CreateError(404, "Student not found"));
-        }
-        student.username = studentName;
-        student.class = studentClass;
-        student.phone = phone;
-        student.email = email;
-        //console.log(password);
-        if (password[0]!=="*") {
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
-            student.password = hashedPassword;
-        }
-
-        await student.save();
-
-=======
         //console.log(req);
         try {
             const { studentName, studentClass, phone, password, email, tutor, coordinator, course } = req.body;
@@ -478,7 +394,6 @@ module.exports = {
               );
               
               console.log(updatedStudent);
->>>>>>> live_chat_branch
         return next(CreateSuccess(200, "Student updated successfully"));
     } catch (err) {
          console.error("Error updating student:", err);
@@ -525,37 +440,14 @@ module.exports = {
     },
     getStudentClasses:async(req,res,next)=>{
         try {
-<<<<<<< HEAD
-            function parseJwt(token) {
-                try {
-                    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-                } catch (e) {
-                    //console.log(e);
-                    throw new Error('Invalid token');
-                }
-            }
-    
-            // Ensure the token is present in cookies
-            const token = req.cookies.user_access_token;
-            if (!token) {
-                return res.status(401).json({ blocked: true }); 
-            }
-            // Parse the JWT token
-            const jwtPayload = parseJwt(token);
-=======
             const token = req.headers.authorization;
             const jwtPayload = commonMethods.parseJwt(token);
->>>>>>> live_chat_branch
             const studentId = jwtPayload.id;
             const today = moment().format('ddd');
         const students = await studentModel.find({ isAdmin: false,_id:studentId })
             .populate('tutor', 'username')
             .populate('course', 'courseName');
-<<<<<<< HEAD
-            //console.log(students);
-=======
             // console.log(students);
->>>>>>> live_chat_branch
         const todayClasses = students.filter(student => student.selectedDays.includes(today)).slice(0,4);
         
         return next(CreateSuccess(200, "Fetched classes successfully", todayClasses));
@@ -565,17 +457,6 @@ module.exports = {
             return next(CreateError(500, "Error fetching upcoming classes"));
         }
     },
-<<<<<<< HEAD
-    geminiResult:async(req,res,next)=>{
-        let prompt = req.body.prompt;
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        //console.log(response.text());
-        return next(CreateSuccess(200, "data created"));
-    },
-    getOldChats : async (req,res,next)=>{
-        try {
-=======
     // geminiResult:async(req,res,next)=>{
     //     let prompt = req.body.prompt;
     //     const result = await model.generateContent(prompt);
@@ -706,7 +587,6 @@ module.exports = {
     },
     getOldeChats:async(req,res,next)=>{
         try {
->>>>>>> live_chat_branch
             const userId = req.query.id;
             const user = await userModel.findById(userId);
             if(!user || !user.isVerified || user.isBlocked || user.isDeleted){
@@ -715,11 +595,7 @@ module.exports = {
             const oldChats = await chatModel.find({userId: user._id});
             return next(CreateSuccess(200, "Old chats fetched successfully", oldChats));
         } catch (error) {
-<<<<<<< HEAD
-            //console.log(error.message);
-=======
             console.log(error.message);
->>>>>>> live_chat_branch
             return next(CreateError(500, "Something went wrong while fetching old chats."));
         }
     }

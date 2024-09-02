@@ -12,11 +12,7 @@ module.exports.sendVerifyMail = async (name,email)=>{
     try
     {    
         const otp = generateOTP()+'';
-<<<<<<< HEAD
-        //console.log('lets check otp type',  typeof otp);
-=======
         // console.log('lets check otp type',  typeof otp);
->>>>>>> live_chat_branch
         let message = `<p>Dear ${name},</p>
         <p>${otp} is your one time password (OTP). Please do not share the OTP with others.</p>
         <p>Regards,</p>
@@ -44,16 +40,6 @@ module.exports.sendVerifyMail = async (name,email)=>{
         transporter.sendMail(mailOptions,(error,info)=>{
             if(error)
             {
-<<<<<<< HEAD
-                //console.log(error);
-            }
-            else
-            {
-                //console.log("Email has been sent.",info.response);
-            }
-        })
-        //console.log(`check otp before return sendmail ${otp}`);
-=======
                 // console.log(error);
             }
             else
@@ -62,15 +48,10 @@ module.exports.sendVerifyMail = async (name,email)=>{
             }
         })
         // console.log(`check otp before return sendmail ${otp}`);
->>>>>>> live_chat_branch
         return otp;
     }
     catch(err)
     {
-<<<<<<< HEAD
-        //console.log(err.message);
-=======
         // console.log(err.message);
->>>>>>> live_chat_branch
     }
 };

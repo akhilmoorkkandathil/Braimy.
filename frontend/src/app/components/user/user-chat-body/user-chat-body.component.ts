@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 
 @Component({
   selector: 'app-user-chat-body',
   standalone: true,
-  imports: [CommonModule,FormsModule,PickerModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './user-chat-body.component.html',
   styleUrl: './user-chat-body.component.scss'
 })

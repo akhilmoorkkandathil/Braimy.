@@ -25,21 +25,11 @@ export class UserDashboardComponent implements OnInit {
     todaysClasses(){
     this.userService.getStudentClasses().subscribe({
       next: (response) => {
-<<<<<<< HEAD
-        //console.log(response.data);
-        this.name = response.data[0].username;
-        
-=======
->>>>>>> live_chat_branch
         this.upcomingClasses = response.data;
        
       },
       error: (error) => {
-<<<<<<< HEAD
-        console.error('Error fetching classes data:', error);
-=======
         console.error('Error fetching todays class data:', error);
->>>>>>> live_chat_branch
       }
     });
   }

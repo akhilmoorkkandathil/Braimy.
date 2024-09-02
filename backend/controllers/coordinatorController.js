@@ -27,11 +27,7 @@ module.exports = {
             }
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(req.body.password, salt);
-<<<<<<< HEAD
-            //console.log(req.body);
-=======
             // console.log(req.body);
->>>>>>> live_chat_branch
             const newCoordinator = new coordinatorModel({
                 username:req.body.fullName,
                 email: req.body.email,
@@ -43,11 +39,7 @@ module.exports = {
             return next(CreateSuccess(200, 'Regsitration Successful.'));
             
         } catch (error) {
-<<<<<<< HEAD
-            //console.log("Register error",  error);
-=======
             // console.log("Register error",  error);
->>>>>>> live_chat_branch
         }
     },
     coordinatorLogin: async(req,res,next)=>{
@@ -87,20 +79,7 @@ module.exports = {
                 username: coordinator.username,
                 email: coordinator.email
             };
-<<<<<<< HEAD
-            //console.log(coordinatorData);
-    
-            res.cookie("user_access_token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "Login Success",
-                    data: coordinatorData,
-                    user_token: token
-                });
-=======
             return next(CreateSuccess(200,"Login Success",coordinatorData,token));
->>>>>>> live_chat_branch
     
         } catch (error) {
             // console.error('Error during login:', error); // Log the error for debugging
@@ -127,11 +106,7 @@ module.exports = {
     },
     addCoordinator:async(req,res,next)=>{
         try {
-<<<<<<< HEAD
-            //console.log(req.body);
-=======
             // console.log(req.body);
->>>>>>> live_chat_branch
             const { coordinatorName, email, phone, description, password } = req.body;
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
@@ -278,11 +253,7 @@ module.exports = {
         }
     },
     manageStudent:async(req,res,next)=>{
-<<<<<<< HEAD
-        //console.log("hello",req.body);
-=======
         // console.log("hello",req.body);
->>>>>>> live_chat_branch
         try {
             const {
                 studentName,
@@ -348,11 +319,7 @@ console.log("=======ewrwer");
             .populate('course', 'courseName');
         const todayClasses = students.filter(student => student.selectedDays.includes(today)).slice(0,4);
         
-<<<<<<< HEAD
-        // //console.log(todayClasses);
-=======
         // // console.log(todayClasses);
->>>>>>> live_chat_branch
         return next(CreateSuccess(200, "Fetched upcoming classes successfully", todayClasses));
             
         } catch (error) {
@@ -426,21 +393,13 @@ console.log("=======ewrwer");
                 return next(CreateSuccess(200, "Notification sent"));
             })
             .catch(error => {
-<<<<<<< HEAD
-                //console.log(error);
-=======
                 // console.log(error);
->>>>>>> live_chat_branch
                 return next(CreateError(500, "Error sending notification: "));
             });
 
             
         } catch (error) {
-<<<<<<< HEAD
-            //console.log(error);
-=======
             // console.log(error);
->>>>>>> live_chat_branch
             return next(CreateError(500, "Error in sending notification"));
         }
     },
@@ -455,11 +414,7 @@ console.log("=======ewrwer");
             const coordinatorId = jwtPayload.id;
             // Fetch the coordinator from the database
             const coordinator = await coordinatorModel.findById(coordinatorId).exec();
-<<<<<<< HEAD
-            //console.log(coordinator);
-=======
             // console.log(coordinator);
->>>>>>> live_chat_branch
             if (!coordinator) {
                 return res.status(404).json({ blocked: true }); 
             }

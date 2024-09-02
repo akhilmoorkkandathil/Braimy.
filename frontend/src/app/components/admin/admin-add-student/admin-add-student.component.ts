@@ -35,13 +35,7 @@ export class AdminAddStudentComponent {
     this.validateForm();
     this.fetchCoordinatorData();
     this.fetchTutorData()
-<<<<<<< HEAD
-    this.fetchCourseData()
-    //console.log(this.coordinators);
-    
-=======
     this.fetchCourseData()    
->>>>>>> live_chat_branch
     this.route.paramMap.subscribe(params => {      
       this.studentId = params.get('id');      
       if (this.studentId) {
@@ -54,10 +48,6 @@ export class AdminAddStudentComponent {
       next: (response) => {
         this.title = "Edit Student Information";
         this.button = "Update student";
-<<<<<<< HEAD
-        //console.log(response);
-=======
->>>>>>> live_chat_branch
         this.populateForm(response.data);
       },
       error: (error) => {
@@ -142,15 +132,7 @@ export class AdminAddStudentComponent {
         this.formData.append('image', this.selectedFile, this.selectedFile.name);
       }
       if (this.studentId) {
-<<<<<<< HEAD
-        //console.log("Submit clicked");
-        
-        //console.log(this.studentForm.value,this.studentId);
-        
-        this.adminService.updateStudent(this.studentId, this.studentForm.value).subscribe({
-=======
         this.adminService.updateStudent(this.studentId, this.formData).subscribe({
->>>>>>> live_chat_branch
           next: (response) => {
             //console.log('Student updated successfully', response);
             this.toast.showSuccess(response.message, 'Success');
@@ -160,15 +142,8 @@ export class AdminAddStudentComponent {
             console.error('Error updating student:', error);
           }
         });
-<<<<<<< HEAD
-      }else{
-      //console.log(this.studentForm.value);
-      
-      this.adminService.addStudent(this.studentForm.value).subscribe({
-=======
       }else{      
       this.adminService.addStudent(this.formData).subscribe({
->>>>>>> live_chat_branch
         next: (response) => {
           //console.log('Student added successfully', response);
           this.toast.showSuccess(response.message, 'Success');

@@ -18,15 +18,9 @@
     background-color: transparent;
     display: inline-block;
     width: 100%;
-<<<<<<< HEAD
-    font-size: 16px;
-    line-height: 20px;
-    padding: 20px 15px 13px 20px;
-=======
     font-size: medium;
     line-height: 15px;
     padding: 20px 15px 13px 30px;
->>>>>>> live_chat_branch
     display: block;
     color: #030303;
     transition: transform .2s;

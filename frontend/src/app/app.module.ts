@@ -86,19 +86,9 @@ import { CoordinatorStuedentsComponent } from './components/coordinator/coordina
 import { ManageStudentComponent } from './components/coordinator/manage-student/manage-student.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { ConfirmDialogueComponent } from './components/shared/confirm-dialogue/confirm-dialogue.component';
-<<<<<<< HEAD
-import { SmartLearnMentorComponent } from './components/user/smart-learn-mentor/smart-learn-mentor.component';
-import { UserChatSidebarComponent } from './components/user/user-chat-sidebar/user-chat-sidebar.component';
-import { UserChatBodyComponent } from './components/user/user-chat-body/user-chat-body.component';
-import { environment } from '../environments/environment';
-import { SocketIoConfig,SocketIoModule } from 'ngx-socket-io';
-
-const config: SocketIoConfig = { url: environment.SOCKET_IO_URL , options: {} };
-=======
 import { ErrorInterceptor } from './interceptors/error-handler.interceptor';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
->>>>>>> live_chat_branch
 
 const config: SocketIoConfig = { url: environment.SOCKET_IO_URL , options: {} };
 
@@ -188,13 +178,7 @@ const config: SocketIoConfig = { url: environment.SOCKET_IO_URL , options: {} };
     MatMenuModule,
     MatSelectModule,
     NgxMatTimepickerModule,
-<<<<<<< HEAD
-    SmartLearnMentorComponent,
-    UserChatSidebarComponent,
-    UserChatBodyComponent,
-=======
     SocketIoModule.forRoot(config),
->>>>>>> live_chat_branch
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

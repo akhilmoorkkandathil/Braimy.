@@ -69,30 +69,8 @@ export class UserLoginComponent implements OnInit{
   setupGoogleAuthListener() {
     this.socialAuthService.authState.subscribe((user) => {
       if (user) {
-<<<<<<< HEAD
-            this.user = user;
-            this.loggedIn = true;
-            //console.log(user);
-            this.toast.showSuccess("Login Sucessfully", 'Success');
-            this.router.navigate(['/user/dashboard']);
-            
-            //Store user data in the backend
-            this.signupService.storeUserData(user).subscribe(
-              (response) => {
-                //console.log('User data stored successfully', response);
-                sessionStorage.setItem('STUDENT', "student");
-                this.router.navigate(['/user/dashboard']);
-              },
-              (error) => {
-                console.error('Error storing user data', error);
-                this.toast.showError("Error logging in", 'Error');
-              }
-            );
-          }
-=======
         this.handleSuccessfulLogin(user, true);
       }
->>>>>>> live_chat_branch
     });
   }
 
@@ -166,33 +144,6 @@ export class UserLoginComponent implements OnInit{
 }
 
 
-<<<<<<< HEAD
-  // this.socialAuthService.authState.subscribe((user) => {
-  //   if (user) {
-  //     this.user = user;
-  //     this.loggedIn = true;
-  //     //console.log(user);
-  //     this.toast.showSuccess("Login Sucessfully", 'Success');
-  //     this.router.navigate(['/user/dashboard']);
-      
-      // Store user data in the backend
-      // this.signupService.storeUserData(user).subscribe(
-      //   (response) => {
-      //     //console.log('User data stored successfully', response);
-      //     sessionStorage.setItem('STUDENT', "student");
-      //     this.toast.showSuccess(response.message, 'Success');
-      //     this.router.navigate(['/user/dashboard']);
-      //   },
-      //   (error) => {
-      //     console.error('Error storing user data', error);
-      //     this.toast.showError("Error logging in", 'Error');
-      //   }
-      // );
-  //   }
-  // });
-
-=======
->>>>>>> live_chat_branch
   validateStudentForm(){
     this.studentLoginForm = this.fb.group({
       email:  ['', Validators.compose([Validators.required, Validators.email])],
@@ -244,13 +195,9 @@ export class UserLoginComponent implements OnInit{
     const loginSubscription = this.loginService.userLogin(this.studentLoginForm.value)
       .subscribe({
         next: (res) => {
-<<<<<<< HEAD
-          //console.log(res);
-=======
           console.log(res);
           const encryptedUserId = this.encryptionService.encrypt(res.data._id);
           localStorage.setItem("userId", encryptedUserId);
->>>>>>> live_chat_branch
           sessionStorage.setItem('STUDENT', "student");
           sessionStorage.setItem('auth_token', res.token);
           this.toast.showSuccess(res.message, 'Success');

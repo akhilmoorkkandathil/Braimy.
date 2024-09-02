@@ -26,11 +26,7 @@ module.exports = {
             }
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(req.body.password, salt);
-<<<<<<< HEAD
-            //console.log("Tutor",req.body);
-=======
             // console.log("Tutor",req.body);
->>>>>>> live_chat_branch
             const newTutor = new tutorModel({
                 username:req.body.fullName,
                 email: req.body.email,
@@ -42,11 +38,7 @@ module.exports = {
             return next(CreateSuccess(200, 'Regsitration Successful.'));
             
         } catch (error) {
-<<<<<<< HEAD
-            //console.log("Register error",  error);
-=======
             // console.log("Register error",  error);
->>>>>>> live_chat_branch
         }
     },
     tutorLogin: async(req,res,next)=>{
@@ -58,11 +50,7 @@ module.exports = {
     
             const tutor = await tutorModel.findOne({ email });
             req.session.tutorId = tutor._id;
-<<<<<<< HEAD
-            //console.log(req.session.tutorId);
-=======
             // console.log(req.session.tutorId);
->>>>>>> live_chat_branch
             if (!tutor) {
                 return next(CreateError(404, 'tutor not found'));
             }
@@ -90,22 +78,8 @@ module.exports = {
                 userName: tutor.username,
                 email: tutor.email
             };
-<<<<<<< HEAD
-            //console.log(tutorData);
-    
-            res.cookie("user_access_token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "Login Success",
-                    data: tutorData,
-                    user_token: token
-                });
-    
-=======
 
             return next(CreateSuccess(200,"Login Success",tutorData,token));
->>>>>>> live_chat_branch
         } catch (error) {
             // console.error('Error during login:', error);
             return next(CreateError(500, 'Something went wrong!'));
@@ -121,11 +95,7 @@ module.exports = {
     },
     addTutor:async(req,res,next)=>{
         try {
-<<<<<<< HEAD
-            //console.log(req.body);
-=======
             // console.log(req.body);
->>>>>>> live_chat_branch
             const { tutorName,email, phone, password, education } = req.body;
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
@@ -278,16 +248,8 @@ module.exports = {
     },
     getTutorStudent:async(req,res,next)=>{
         try {
-<<<<<<< HEAD
-            function parseJwt (token) {
-                return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-            }
-            //console.log(req.cookies.user_access_token);
-            let jwtPayload = parseJwt(req.cookies.user_access_token);
-=======
             const token = req.headers.authorization;
             const jwtPayload = commonMethods.parseJwt(token);
->>>>>>> live_chat_branch
             const tutorId = jwtPayload.id;
     
             // Fetch all students data from the database
@@ -358,29 +320,16 @@ module.exports = {
     getTutorUpcomingClasses:async(req,res,next)=>{
         try {
 
-<<<<<<< HEAD
-            function parseJwt (token) {
-                return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-            }
-            //console.log(req.cookies.user_access_token);
-            let jwtPayload = parseJwt(req.cookies.user_access_token);
-=======
             const token = req.headers.authorization;
             const jwtPayload = commonMethods.parseJwt(token);
->>>>>>> live_chat_branch
             const tutorId = jwtPayload.id;
             const today = moment().format('ddd');
         const students = await studentModel.find({ isAdmin: false,tutor:tutorId })
             .populate('tutor', 'username') 
             .populate('course', 'courseName');
         const todayClasses = students.filter(student => student.selectedDays.includes(today)).slice(0,4);
-<<<<<<< HEAD
-        //console.log("jhkhkjhk");
-        // //console.log(todayClasses);
-=======
         // console.log("jhkhkjhk");
         // // console.log(todayClasses);
->>>>>>> live_chat_branch
         return next(CreateSuccess(200, "Fetched upcoming classes successfully", todayClasses));
             
         } catch (error) {

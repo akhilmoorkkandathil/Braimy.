@@ -74,12 +74,6 @@ export class AdminAddTutorComponent {
 
   onSubmit() {
     if (this.tutorForm.valid) {
-<<<<<<< HEAD
-      if (this.tutorId) {
-        //console.log(this.tutorForm.value,this.tutorId);
-        
-        this.adminService.updateTutor(this.tutorId, this.tutorForm.value).subscribe({
-=======
       this.formData.append('tutorName', this.tutorForm.value.tutorName);
       this.formData.append('phone', this.tutorForm.value.phone);
       this.formData.append('password', this.tutorForm.value.password);
@@ -90,7 +84,6 @@ export class AdminAddTutorComponent {
       }
       if (this.tutorId) {        
         this.adminService.updateTutor(this.tutorId, this.formData).subscribe({
->>>>>>> live_chat_branch
           next: (response) => {
             //console.log('Tutor updated successfully', response);
             this.toast.showSuccess(response.message, 'Success');

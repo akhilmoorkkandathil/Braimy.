@@ -12,16 +12,8 @@ const userRouter = require('./routes/userRoutes');
 const tutorRouter = require('./routes/tutorRoutes');
 const coordinatorRouter = require('./routes/coordinatorRoutes');
 const adminRouter = require('./routes/adminRoutes');
-<<<<<<< HEAD
-//const { Server } = require('socket.io');
-
-
-//const initializeSocket = require('./utils/socket')
-
-=======
 const {CreateError} = require('../backend/utils/error')
 const initializeSocket = require('./utils/socket')
->>>>>>> live_chat_branch
 
 const app = express();
 dotenv.config();
@@ -87,38 +79,16 @@ app.use((req,res,next)=>{
 function connectMongoDB(){
     mongoose.connect(process.env.MONNGO_CONNECTION_STRING)
 .then(()=>{
-<<<<<<< HEAD
-    //console.log("Connected to Database!");
-})
-.catch((error)=>{
-    //console.log("Mongodb Connection error",error);
-=======
      console.log("Connected to Database!");
 })
 .catch((error)=>{
     app.use((req, res, next) => {
         return next(createError(402, "Service Unavailable: Please check your internet connection or try again later."));
     });
->>>>>>> live_chat_branch
 })
 
 }
 
-<<<<<<< HEAD
-
-const extractToken = (req, res, next) => {
-    const token = req.cookies.user_access_token;
-    if (token) {
-      req.token = token; // Remove 'Bearer ' from the start
-    } else {
-      req.token = null;
-    }
-    next();
-  };
-
-app.use(extractToken);
-=======
->>>>>>> live_chat_branch
 
 app.use("/images",express.static(path.join('backend/images')))
 
@@ -179,13 +149,6 @@ app.use('/tutor',tutorRouter)
 // });
 
 const server = http.createServer(app);
-<<<<<<< HEAD
-const PORT = 8000;
-server.listen(PORT,()=>{
-    connectMongoDB();
-    //console.log(`Server is running on port ${PORT}`);
-});
-=======
 
 const io = initializeSocket(server);
 
@@ -207,4 +170,3 @@ server.listen(8000, ()=>{
     // console.log('Connected to backend');
 });
 
->>>>>>> live_chat_branch

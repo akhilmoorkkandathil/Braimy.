@@ -27,8 +27,8 @@ adminRouter.post('/deleteExpense/:id',adminController.deleteExpense);
 
 adminRouter.get('/dashboardData',adminController.dashboardData);
 
-adminRouter.get('/get_chat_user_list',adminController.getChatUsers);
-adminRouter.get('/get_old_chats',adminController.getOldChats);
+//adminRouter.get('/get_chat_user_list',adminController.getChatUsers);
+//adminRouter.get('/get_old_chats',adminController.getOldChats);
 
 module.exports = adminRouter;
 

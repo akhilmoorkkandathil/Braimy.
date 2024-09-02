@@ -18,13 +18,8 @@ tutorRoute.delete('/deleteTutor/:id',tutorController.deleteTutor);
 tutorRoute.get('/getTutorStudent',tutorController.getTutorStudent);
 tutorRoute.get('/markCompleted/:id',tutorController.markCompleted);
 tutorRoute.get('/blockStatus',tutorController.blockStatus);
-<<<<<<< HEAD
-tutorRoute.get('/getTutorUpcomingClasses',tutorController.getTutorUpcomingClasses);
-
-=======
 tutorRoute.get('/getTutorUpcomingClasses',tutorController.getTutorUpcomingClasses)
 tutorRoute.get('/searchTutor',tutorController.searchTutor);
->>>>>>> live_chat_branch
 
 
 

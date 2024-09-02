@@ -1,102 +1,3 @@
-<<<<<<< HEAD
-/* eslint-disable no-undef */
-
-const adminModel = require('../models/userModel');
-const {CreateSuccess} = require("../utils/success");
-const {CreateError} = require('../utils/error');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const courseModel = require('../models/courseModel');
-const paymentModel  = require('../models/paymentModel');
-const expenceModel = require('../models/expenseSchema');
-const studentModel = require('../models/userModel');
-const tutorModel = require('../models/tutorModel');
-const CompletedClassModel = require('../models/completedClassModel');
-const chatModel = require('../models/chatModel')
-
-const cloudinary = require('cloudinary').v2;
-//s3 bucket -presigned url
-require('dotenv').config();
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDNAME,
-  api_key: process.env.CLOUDAPIKEY,
-  api_secret: process.env.CLOUDINARYSECRET
-});
-
-
-
-module.exports = {
-    
-    adminLogin: async(req,res,next)=>{
-        try {
-            const { email, password } = req.body;
-            if (!email || !password) {
-                return next(CreateError(400, 'Email and password are required'));
-            }
-    
-            const admin = await adminModel.findOne({ email,isAdmin:true });
-            //console.log(admin);
-            if (!admin) {
-                return next(CreateError(404, 'admin not found'));
-            }
-            if(!admin.password){
-                return next(CreateError(400, 'Password not found'));
-            }
-            const isPasswordCorrect = await bcrypt.compare(password, admin.password);
-            if (!isPasswordCorrect) {
-                return next(CreateError(400, 'Incorrect password'));
-            }
-            const token = jwt.sign(
-                { id: admin._id, isUser: true },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-            const adminData = {
-                adminId: admin._id,
-                userName: admin.username,
-                email: admin.email
-            };
-            res.cookie("user_access_token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "Login Success",
-                    data: adminData,
-                    token: token
-                });
-    
-        } catch (error) {
-            console.error('Error during login:', error); // Log the error for debugging
-            return next(CreateError(500, 'Something went wrong!'));
-        }
-    },
-
-    addCourse:async(req,res,next)=>{
-        try {
-            const { courseName, class: courseClass, subject, description, topic } = req.body;
-            const image = req.file.path; // Assuming req.file contains the uploaded file path
-            const result = await cloudinary.uploader.upload(image);
-
-            const newCourse = new courseModel({
-            courseName,
-            class: courseClass,
-            subject,
-            description,
-            topic,
-            imageUrl:result.url // Save the file path to the database
-            });
-            await newCourse.save();
-    
-            return next(CreateSuccess(200, "Course added successfully", newCourse));
-        } catch (error) {
-            console.error('Error adding course:', error);
-            return next(CreateError(500, "Something went wrong while adding the course"));
-        }
-    },
-    
-getCourses:async(req,res,next)=>{
-=======
 const adminModel = require("../models/userModel");
 const { CreateSuccess } = require("../utils/success");
 const { CreateError } = require("../utils/error");
@@ -113,7 +14,6 @@ const cloudinary = require("../utils/cloudinary");
 
 module.exports = {
   adminLogin: async (req, res, next) => {
->>>>>>> live_chat_branch
     try {
       const { email, password } = req.body;
       if (!email || !password) {
@@ -193,12 +93,7 @@ module.exports = {
 
       return next(CreateSuccess(200, "Payment added successfully"));
     } catch (error) {
-<<<<<<< HEAD
-        //console.log("while adding payment",error);
-        return next(CreateError(500, "Something went wrong while adding the payment"));
-=======
       return next(CreateError(500, "Something went wrong while adding the payment"));
->>>>>>> live_chat_branch
     }
   },
 
@@ -414,23 +309,6 @@ module.exports = {
   },
   dashboardData: async (req, res, next) => {
     try {
-<<<<<<< HEAD
-        console.log("=======start");
-        const students = await studentModel.find();
-        const tutors = await tutorModel.find();
-        const course = await CompletedClassModel.find()
-
-        const data = {
-            students : students.length-1,
-            tutors:tutors.length,
-            courseCompleted :course.length
-        }
-        console.log("==========end data",data);
-        const responseData = CreateSuccess(200, "Dashboard data fetched successfully",data)
-        console.log(responseData);
-        return responseData;
-
-=======
         console.log("Reached teh dashboard controller");
       const students = await studentModel.find();
       const tutors = await tutorModel.find();
@@ -441,37 +319,8 @@ module.exports = {
         courseCompleted: course.length,
       };
       return next(CreateSuccess(200, "Dashboard data fetched successfully", data));
->>>>>>> live_chat_branch
     } catch (error) {
       return next(CreateError(500, "Error in fetching dashboard data"));
     }
-<<<<<<< HEAD
-},
-getChatUsers : async (req,res,next)=>{
-    try {
-        
-        const users = await studentModel.find({isVerified: true, isDeleted: {$ne: true}, isBlocked: {$ne: true}},{fullName:1});
-        return next(CreateSuccess(200, 'Chat Users fetched successfully', users));
-    } catch (error) {
-        //console.log(error.message);
-        return next(CreateError(500, "Something went wrong while fetching chat list!"));
-    }
-},
-getOldChats : async (req,res,next)=>{
-    try {
-        
-        const oldChats = await chatModel.find();
-        return next(CreateSuccess(200, "Old chats fetched successfully", oldChats));
-    } catch (error) {
-        //console.log(error.message);
-        return next(CreateError(500, "Something went wrong while fetching old chats."));
-    }
-
-
-    
-}
-}
-=======
   },
 };
->>>>>>> live_chat_branch

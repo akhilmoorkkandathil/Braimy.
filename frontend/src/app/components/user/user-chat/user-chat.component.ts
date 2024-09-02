@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { Component} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { UserChatSidebarComponent } from '../user-chat-sidebar/user-chat-sidebar.component';
-import { UserChatBodyComponent } from '../user-chat-body/user-chat-body.component';
-=======
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ChatMessage } from '../../../interfaces/chatMessage';
 import { ChatService } from '../../../services/chatServices/chatService/chat.service';
@@ -15,16 +8,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
->>>>>>> live_chat_branch
 
 @Component({
   selector: 'app-user-chat',
   standalone: true,
-<<<<<<< HEAD
-  imports: [CommonModule,FormsModule,UserChatSidebarComponent,UserChatBodyComponent],
-=======
   imports: [CommonModule,FormsModule],
->>>>>>> live_chat_branch
   templateUrl: './user-chat.component.html',
   styleUrl: './user-chat.component.scss',
 })
@@ -35,16 +23,6 @@ export class UserChatComponent {
   userType = 'User';
   userId = '';
 
-<<<<<<< HEAD
-  conversation;
-
-
-  onConversationSelected(conversation){
-    this.conversation = conversation;
-  }
-
-  
-=======
   chatService = inject(ChatService);
   userChatService = inject(UserChatService)
   encryptionService = inject(EncryptionService);
@@ -113,5 +91,4 @@ export class UserChatComponent {
       this.userInput = '';
     }   
   }
->>>>>>> live_chat_branch
 }

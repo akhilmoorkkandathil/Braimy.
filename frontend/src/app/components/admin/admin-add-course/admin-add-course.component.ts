@@ -100,19 +100,6 @@ export class AdminAddCourseComponent {
             console.error('Error updating course:', error);
           }
         });
-<<<<<<< HEAD
-      }else{
-        
-        
-
-        this.formData.append('courseName', this.courseForm.value.courseName);
-    this.formData.append('class', this.courseForm.value.class);
-    this.formData.append('subject', this.courseForm.value.subject);
-    this.formData.append('description', this.courseForm.value.description);
-    this.formData.append('topic', this.courseForm.value.topic);
-        this.formData.forEach((value, key) => {
-          //console.log(key, value);
-=======
       } else {
         this.adminService.addCourse(this.formData).subscribe({
           next: (response) => {
@@ -123,7 +110,6 @@ export class AdminAddCourseComponent {
             console.error('Error adding course:', error);
             this.toast.showError('Error adding course', 'Error');
           }
->>>>>>> live_chat_branch
         });
       }
     }
@@ -131,19 +117,6 @@ export class AdminAddCourseComponent {
   
 
   onImagePick(event: Event) {
-<<<<<<< HEAD
-    const file = (event.target as HTMLInputElement).files[0];
-    this.courseForm.patchValue({ image: file });
-    this.courseForm.get('image').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-    //console.log(file,file.name);
-    
-    this.formData.append('image', file, file.name);
-=======
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files ? fileInput.files[0] : null;
 
@@ -158,7 +131,6 @@ export class AdminAddCourseComponent {
       };
       reader.readAsDataURL(file);
     }
->>>>>>> live_chat_branch
     
   }
 }
