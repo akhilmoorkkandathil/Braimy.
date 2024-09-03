@@ -13,8 +13,8 @@ import { UserDataService } from '../../../services/userDataService/user-data.ser
   styleUrl: './user-sidebar.component.css'
 })
 export class UserSidebarComponent {
-  userData:undefined|User;
-  username:string;
+  userData: User = { username: '', photoUrl: '' };
+  username:string='';
   constructor( 
     private router: Router,
     private toast:ToastService,
@@ -33,10 +33,10 @@ export class UserSidebarComponent {
   getStudentData(){
     this.userService.getStudentData().subscribe({
       next:(response)=>{
-        console.log(response.data);
+        console.log("This is response.data in the student sidebar",response.data);
         
         this.userData = response.data[0];
-        this.updateUser(response.data[0])
+        //this.updateUser(response.data[0])
         this.username = response.data[0].username;
         console.log(this.userData);
       },

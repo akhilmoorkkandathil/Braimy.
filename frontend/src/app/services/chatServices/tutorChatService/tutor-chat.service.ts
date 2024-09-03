@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ApiResponse } from '../../../interfaces/apiResponse';
 import { apiUrls } from '../../../API';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserChatService {
+export class TutorChatService {
   http = inject(HttpClient);
   
   constructor() { }
 
-  getOldChats(tutorId:string){
-    return this.http.get<ApiResponse>(`${apiUrls.usersApi}get_old_chats/${tutorId}`);
+  getOldChats(userId:string){
+    return this.http.get<ApiResponse>(`${apiUrls.tutorsApi}getOldChat/${userId}`);
   }
 }

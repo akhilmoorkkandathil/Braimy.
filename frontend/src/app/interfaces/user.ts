@@ -7,7 +7,7 @@ export interface User {
     position?: number;
     photoUrl?: string
     phone?: string
-    email: string
+    email?: string
     isVerified?: boolean
     isBlocked?: boolean
     isDeleted?: boolean
@@ -16,4 +16,5 @@ export interface User {
     course?: Course;
     tutor?: Tutor;
     classDuration?:String
+    lastMessage?:string
 }

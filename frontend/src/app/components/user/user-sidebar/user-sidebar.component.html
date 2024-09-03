@@ -1,10 +1,10 @@
 <div class="sidebar">
     <nav class="sidebar-navigation">
       <div class="image">
-        <div class="profile-img-container">
-          <img [src]="userData?.photoUrl" alt="User Photo" class="profile-img">
+        <div class="profile-img-container" *ngIf="userData">
+          <img [src]="userData.photoUrl" alt="User Photo" class="profile-img">
         </div>
-        <div class="profile-name">
+        <div class="profile-name" *ngIf="userData">
           <h4 class="profile-username">{{userData.username}}</h4>
         </div>
       </div>

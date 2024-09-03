@@ -12,53 +12,47 @@ export class ChatService {
 
   constructor() { }
 
-  joinChat(userId: string, userType: string){
-    if(userId){
-      console.log(`i'm joining user chat, inisde chat service`);
+  joinChat(userId: string, userType: string) {
+    if (userId) {
+      console.log(`User joining chat: ${userId}, type: ${userType}`);
     }
-    this.socket.emit('joinChat', {userId, userType });
+    this.socket.emit('joinChat', { userId, userType });
   }
 
-  sendMessage(userId: string,tutorId:string,senderType: string, message: string){
-    this.socket.emit('sendMessage', {userId,tutorId,senderType,message});
+  sendMessage(userId: string, tutorId: string, senderType: string, message: string) {
+    console.log(`Sending message: ${message}, from ${senderType} to ${userId || tutorId}`);
+    this.socket.emit('sendMessage', { userId, tutorId, senderType, message });
   }
 
-  getMessages() : Observable<ChatMessage> {
-    console.log('inside chatservice getMesages'); 
-    /* return this.socket.fromEvent<{data: string, message: string}>('received').pipe(map(data=> data)); */
-    return new Observable<ChatMessage>(observer=>{
-      this.socket.on('messageReceived', (data: ChatMessage)=>{
-        console.log('user received message: ', data);
-        
+  getMessages(): Observable<ChatMessage> {
+    console.log('Subscribing to messages');
+    return new Observable<ChatMessage>(observer => {
+      this.socket.on('messageReceived', (data: ChatMessage) => {
+        console.log('Message received:', data);
         observer.next(data);
       });
 
-      return()=> this.socket.off('messageReceived');
-    }).pipe(map(data=> data))
+      // Cleanup on unsubscription
+      return () => this.socket.off('messageReceived');
+    });
   }
-
-  getOnlineUsers(): Observable<string[]> {
-    //console.log(`inside getONline users service method`);
-    return new Observable<string[]>(observer =>{
-      const handler = (data: string[])=>{
-        //console.log(`list of online users: ${data}`);
+  getLastMessage(): Observable<any> {
+    return new Observable(observer => {
+      this.socket.on('lastMessage', (data) => {
+        console.log('Last message received:', data);
         observer.next(data);
-      };
+      });
 
-      this.socket.on('onlineUsers', handler);
-
-      return ()=>{
-        this.socket.off('onlineUsers');
-      }
-        
-    })
+      return () => this.socket.off('lastMessage');
+    });
   }
-
   disconnect() {
+    console.log('Disconnecting socket');
     this.socket.disconnect();
   }
 
-  connect(){
+  connect() {
+    console.log('Connecting socket');
     this.socket.connect();
   }
 }

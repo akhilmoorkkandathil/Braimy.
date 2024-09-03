@@ -10,7 +10,8 @@ const {sendVerifyMail} = require('../utils/sendVerifyMail');
 const moment = require('moment');
 const studentModel = require('../models/userModel');
 const model = require('../utils/gemini')
-const chatModel = require('../models/chatModel')
+const chatModel = require('../models/chatModel');
+const tutorModel = require('../models/tutorModel')
 
 const commonMethode = require('../utils/commonMethods');
 const commonMethods = require('../utils/commonMethods');
@@ -252,23 +253,15 @@ module.exports = {
             return next(CreateError(500,"Something went wrong while fetching users"));
         }
     },
-    getTutorUser:async(req,res,next)=>{
-        try {
-            // Fetch all students data from the database
-            const students = await userModel.find({tutor:req.session.tutorId});
-            const formattedStudents = students.map((student, index) => ({
-                _id:student._id,
-                position: index + 1,
-                name: student.username,
-                phone: student.phone,
-                class:student.class,
-                status:student.isBlocked
-              }));
-            return next(CreateSuccess(200, 'Fetched students successfully', formattedStudents, null));
-        } catch (e) {
-            return next(CreateError(500,"Something went wrong while fetching users"));
-        }
-    },
+    // getTutorUser:async(req,res,next)=>{
+    //     try {
+    //         // Fetch all students data from the database
+    //         const students = await userModel.find({tutor:req.session.tutorId});
+    //         return next(CreateSuccess(200, 'Fetched students successfully', students, null));
+    //     } catch (e) {
+    //         return next(CreateError(500,"Something went wrong while fetching users"));
+    //     }
+    // },
     addStudent:async(req,res,next)=>{
         try {
             const { studentName, studentClass, phone, password, email, tutor, coordinator, course } = req.body;
@@ -466,6 +459,7 @@ module.exports = {
     // },
     getOldChats : async (req,res,next)=>{
         try {
+            const tutorId = req.params.tutorId;
             const token = req.headers.authorization;
             const jwtPayload = commonMethods.parseJwt(token);
             const studentId = jwtPayload.id;
@@ -473,10 +467,12 @@ module.exports = {
             if(!user || !user.isVerified || user.isBlocked || user.isDeleted){
                 return next(CreateError(401, "User is unavailable"));
             }
-            const oldChats = await chatModel.find({userId: user._id});
+            const oldChats = await chatModel.find({userId: user._id,tutorId:tutorId});
+            console.log(oldChats);
+            
             return next(CreateSuccess(200, "Old chats fetched successfully", oldChats));
         } catch (error) {
-            // console.log(error.message);
+            console.log(error.message);
             return next(CreateError(500, "Something went wrong while fetching old chats."));
         }
     },
@@ -597,6 +593,27 @@ module.exports = {
         } catch (error) {
             console.log(error.message);
             return next(CreateError(500, "Something went wrong while fetching old chats."));
+        }
+    },
+    getStudentTutor:async(req,res,next)=>{
+        try {
+            const token = req.headers.authorization;
+            const jwtPayload = commonMethods.parseJwt(token);
+            const studentId = jwtPayload.id;
+            const student = await studentModel.find({ isAdmin: false,_id:studentId });
+            console.log(student);
+            
+            const tutorId = student[0].tutor;
+            console.log(tutorId);
+            
+            const tutor = await tutorModel.find({_id:tutorId});
+            console.log(tutor);
+            
+            return next(CreateSuccess(200, "Student tutors fetched successfully", tutor));
+
+        } catch (error) {
+            console.log(error.message);
+            return next(CreateError(500, "Something went wrong while fetching students tutors."));
         }
     }
     

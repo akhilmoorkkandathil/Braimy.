@@ -10,6 +10,8 @@ const CompletedClass = require('../models/completedClassModel');
 const moment = require('moment');
 const commonMethods = require('../utils/commonMethods');
 const cloudinary = require('../utils/cloudinary')
+const chatModel = require('../models/chatModel')
+
 
 
 
@@ -87,7 +89,7 @@ module.exports = {
     },
     getTutorsList:async(req,res,next)=>{
         try {
-            const tutors = await tutorModel.find({isDeleted:false});
+            const tutors = await tutorModel.find({isDeleted:false,isBlocked:false});
             return next(CreateSuccess(200, 'Fetched tutors successfully', tutors, null));
         } catch (error) {
             return next(CreateError(500,"Something went wrong while fetching users"));
@@ -349,5 +351,39 @@ module.exports = {
             console.error('Error searching tutor:', error);
             return next(CreateError(500, "Error searching tutor"));
           }
+    },
+    getTutuorData:async(req,res,next)=>{
+        try {
+            const token = req.headers.authorization;
+            const jwtPayload = commonMethods.parseJwt(token);
+            const tutorId = jwtPayload.id;            
+            const tutor = await tutorModel.find({_id:tutorId });
+            return next(CreateSuccess(200,"Tutor data fetched successfully",tutor));
+        } catch (error) {
+            return next(CreateError(500, "Error fetching tutor data"));
+        }
+    },
+    getOldChat:async(req,res,next)=>{
+        try {
+            const userId = req.params.id;
+            console.log("User Id: ",userId);
+            
+            const token = req.headers.authorization;
+            const jwtPayload = commonMethods.parseJwt(token);
+            const tutorId = jwtPayload.id;
+            console.log("Tutor Id: ",tutorId);
+            
+            const tutor = await tutorModel.findById(tutorId);
+            if(!tutor || !tutor.isVerified || tutor.isBlocked || tutor.isDeleted){
+                return next(CreateError(401, "tutor is unavailable"));
+            }
+            const oldChats = await chatModel.find({userId: userId,tutorId:tutorId});
+            console.log(oldChats);
+            
+            return next(CreateSuccess(200, "Old chats fetched successfully", oldChats));
+        } catch (error) {
+            console.log(error.message);
+            return next(CreateError(500, "Something went wrong while fetching old chats."));
+        }
     }
 }

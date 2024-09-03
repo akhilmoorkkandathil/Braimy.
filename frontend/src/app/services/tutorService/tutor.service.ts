@@ -15,6 +15,13 @@ export class TutorService {
     return this.http.get<ApiResponse>(`${apiUrls.tutorsApi}getTutors`,{withCredentials:true});
   }
 
+  getTutorData(){
+    return this.http.get<ApiResponse>(`${apiUrls.tutorsApi}getTutuorData`,{withCredentials:true})
+  }
+  getStudentTutor(){
+    return this.http.get<ApiResponse>(`${apiUrls.usersApi}getStudentTutor`,{withCredentials:true});
+  }
+
 searchTutor(term: string) {
   return this.http.get<ApiResponse>(`${apiUrls.tutorsApi}searchTutor`, {
     params: { term }

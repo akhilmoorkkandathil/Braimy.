@@ -195,7 +195,7 @@ export class UserLoginComponent implements OnInit{
     const loginSubscription = this.loginService.userLogin(this.studentLoginForm.value)
       .subscribe({
         next: (res) => {
-          console.log(res);
+          console.log("In student login component",res.data);
          //const encryptedUserId = this.encryptionService.encrypt(res.data._id);
           localStorage.setItem("userId", res.data.userId);
           sessionStorage.setItem('STUDENT', "student");
@@ -218,7 +218,8 @@ export class UserLoginComponent implements OnInit{
       const loginSubscription = this.loginService.tutorLogin(this.tutorLoginForm.value)
       .subscribe({
         next: (res) => {
-          //console.log(res.token);
+          //console.log(res.token); tutorId
+          localStorage.setItem("tutorId", res.data.tutorId);
           localStorage.setItem("tutorId", res.data.tutorId);
           sessionStorage.setItem('TUTOR', "tutor");
           sessionStorage.setItem('auth_token', res.token);

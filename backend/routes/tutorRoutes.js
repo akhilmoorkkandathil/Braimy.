@@ -20,7 +20,7 @@ tutorRoute.get('/markCompleted/:id',tutorController.markCompleted);
 tutorRoute.get('/blockStatus',tutorController.blockStatus);
 tutorRoute.get('/getTutorUpcomingClasses',tutorController.getTutorUpcomingClasses)
 tutorRoute.get('/searchTutor',tutorController.searchTutor);
-
-
+tutorRoute.get('/getTutuorData',tutorController.getTutuorData);
+tutorRoute.get('/getOldChat/:id',tutorController.getOldChat);
 
 module.exports = tutorRoute;

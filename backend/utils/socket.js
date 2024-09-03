@@ -17,17 +17,13 @@ const initializeSocket = (server) => {
     console.log("Socket.io user connectedm - util socket.js");
     socket.emit("Server sended to the client without any request")
 
-    socket.on("joinChat", ({ id, userType }) => {
-      if (userType === "Tutor") {
-        socket.join(id);
-        console.log("Tutor joined");
-      } else {
-        socket.join(id);
-        console.log("Student joined");
-        //onlineUsers.set(id, socket.id);
-        //console.log(`onlineUsers: ${Array.from(onlineUsers.keys())}`);
+    socket.on("joinChat", ({ userId, userType }) => {
+      if (userId) {
+        socket.join(userId);
+        console.log(`${userType} joined chat with ID: ${userId}`);
+        onlineUsers.set(userId, socket.id);
+        io.emit("onlineUsers", Array.from(onlineUsers.keys()));
       }
-      //io.to("admin").emit("onlineUsers", Array.from(onlineUsers.keys()));
     });
 
     socket.on("sendMessage", async ({ userId,tutorId,senderType, message }) => {
@@ -40,8 +36,8 @@ const initializeSocket = (server) => {
       });
       await chatMessage.save();
 
-      if (senderType === "Admin") {
-        console.log("admin sends message to user: ", userId);
+      if (senderType === "Tutor") {
+        console.log("tutor sends message to user: ", userId);
         io.to(userId).emit("messageReceived", {
           userId: chatMessage.userId,
           senderType: chatMessage.senderType,
@@ -56,6 +52,7 @@ const initializeSocket = (server) => {
           createdAt: chatMessage.createdAt,
         });
       }
+      io.emit("lastMessage", { userId, tutorId, message, createdAt: chatMessage.createdAt });
     });
 
     socket.on("joinVideoCall", ({ userId, userType, roomId }) => {
@@ -80,7 +77,7 @@ const initializeSocket = (server) => {
           onlineUsers.delete(key);
         }
       });
-      io.to("admin").emit("onlineUsers", Array.from(onlineUsers.keys()));
+      io.emit("onlineUsers", Array.from(onlineUsers.keys()));
 
       console.log("Socket.io user disconnected");
     });

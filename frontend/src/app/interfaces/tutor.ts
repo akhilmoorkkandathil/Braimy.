@@ -1,9 +1,9 @@
 export interface Tutor {
-    _id: string
+    _id?: string
     username?: string
     photoUrl?: string
-    phone: string
-    email: string
+    phone?: string
+    email?: string
     education?:string
     isVerified?: boolean
     isBlocked?: boolean

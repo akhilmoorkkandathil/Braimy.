@@ -19,7 +19,7 @@ userRouter.patch('/unblockStudent/:id',checkCoordinatorBlockStatus,userControlle
 userRouter.get('/getStudent/:id',userController.getStudent);
 userRouter.post('/updateStudent/:id', upload.single('image'),checkCoordinatorBlockStatus,userController.updateStudent);
 
-userRouter.get('/getTutorUser',userController.getTutorUser);
+//userRouter.get('/getTutorUser',userController.getTutorUser);
 userRouter.post('/subscribe',userController.subscribe);
 userRouter.get('/blockStatus',userController.blockStatus);
 userRouter.get('/getStudentClasses',userController.getStudentClasses);
@@ -28,6 +28,7 @@ userRouter.get('/searchCourses',userController.getCoursesData);
 userRouter.get('/getStudentData',userController.getStudentData);
 userRouter.post('/payment',userController.payment);
 userRouter.post('/payment_success',userController.paymentSucess);
-userRouter.get('/get_old_chats',userController.getOldChats);
+userRouter.get('/get_old_chats/:tutorId',userController.getOldChats);
+userRouter.get('/getStudentTutor',userController.getStudentTutor);
 
 module.exports = userRouter;

@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TutorService } from '../../../../services/tutorService/tutor.service';
 import { Tutor } from '../../../../interfaces/tutor';
+import { ChatMessage } from '../../../../interfaces/chatMessage';
+import { UserChatService } from '../../../../services/chatServices/userChatService/user-chat.service';
 
 @Component({
   selector: 'app-chat-layout',
@@ -18,29 +20,27 @@ export class ChatLayoutComponent implements OnInit {
   userId = '';
   tutorList:Tutor[];
   tutorId=''
-  userType = "User"
+  userType = "User";
+  messages: ChatMessage[] = [];
 
-  constructor(private chatService:ChatService, private tutorService:TutorService){}
+  constructor(
+    private chatService:ChatService, 
+    private tutorService:TutorService,
+    private userChatservice:UserChatService
+  ){}
 
 
   ngOnInit(): void {
       this.chatService.connect()
       this.userId = localStorage.getItem('userId');
       this.fetchTutors();
-      this.joinChat()
+      this.getMessages();
   }
 
 
-  joinChat(){
-    console.log();
-    
-    this.chatService.joinChat(this.userId,this.userType);
-  }
   fetchTutors(){
-    this.tutorService.getTutors().subscribe((res)=>{
+    this.tutorService.getStudentTutor().subscribe((res)=>{
       this.tutorList = res.data;
-      console.log(res.data);
-      
     })
   }
 
@@ -50,16 +50,46 @@ export class ChatLayoutComponent implements OnInit {
   selectedTutor: Tutor;
 
   selectUser(tutor:Tutor) {
-    console.log(tutor);
+    console.log("This is tutor data",tutor);
     
+    this.messages = []
     this.selected = true;
     this.tutorId = tutor._id
+    this.joinChat();
     this.selectedTutor = tutor;
+    this.getOldChats(this.tutorId);
+  }
+  joinChat(){
+    this.chatService.joinChat(this.userId,this.userType);
+  }
+
+  getOldChats(tutorId:string){
+    this.userChatservice.getOldChats(tutorId).subscribe({
+      next: (response) => {
+        console.log('fetched older messages: ', response.data);
+      this.messages.push(...response.data);
+      },
+      error: (error) => {
+        console.error('Error fetching older chat:', error);
+      }
+  });
   }
 
   sendMessage(){
     this.chatService.sendMessage(this.userId,this.tutorId,this.userType, this.userInput);
+    this.messages.push({userId:this.userId, senderType:this.userType, message:this.userInput});
+    this.userInput = '';
   }
+
+  getMessages(){
+    this.chatService.getMessages().subscribe((message: ChatMessage)=>{
+      console.log('hey, received message in the component:', message);
+      
+      this.messages.push(message);
+      console.log(this.messages);
+    })
+  }
+
 
 
 }

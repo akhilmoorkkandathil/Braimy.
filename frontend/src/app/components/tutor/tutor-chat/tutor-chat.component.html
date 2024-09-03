@@ -3,15 +3,15 @@
      <!-- Sidebar -->
 <div class="col-md-4 col-lg-3 chat-sidebar bg-light">
   <h3 class="chat-heading p-3">Chats</h3>
-  <div *ngIf="tutorList">
-      <div *ngFor="let tutor of tutorList; let i = index" class="user-list-item p-2 border-bottom" (click)="selectUser(tutor)">
+  <div *ngIf="studentList">
+      <div *ngFor="let student of studentList; let i = index" class="user-list-item p-2 border-bottom" (click)="selectUser(student)">
           <div class="d-flex align-items-center">
               <!-- Left side with profile image -->
-              <img [src]="tutor.photoUrl" class="profile-img rounded-circle mr-2" alt="User Image">
+              <img [src]="student.photoUrl" class="profile-img rounded-circle mr-2" alt="User Image">
               <!-- Center with name and message -->
               <div class="flex-grow-1">
-                  <p class="mb-0 font-weight-bold">{{ tutor.username }}</p>
-                  <small class="text-muted">Small font</small>
+                  <p class="mb-0 font-weight-bold">{{ student.username }}</p>
+                  <small class="text-muted">{{ lastMessages.get(student.userId) || 'No messages yet' }}</small>
               </div>
               <!-- Right side with last seen or online status -->
           </div>
@@ -43,7 +43,18 @@
 
           <!-- Chat Content -->
           <div class="chat-content">
-              <!-- Chat messages go here -->
+            <div *ngFor="let message of messages">
+                <div class="flex" *ngIf="message.senderType==='User'">
+                    <div class="bg-[#26ABA3] text-white p-2 rounded-lg max-w-xs">
+                        {{message.message}}
+                    </div>
+                </div>
+                <div class="flex justify-end"*ngIf="message.senderType==='Tutor'">
+                    <div class="bg-[#FEF3DE] text-gray-800 p-2 rounded-lg max-w-xs">
+                        {{message.message}}
+                    </div>
+                </div>
+            </div>
           </div>
           <div class="chat-footer d-flex align-items-center border-top p-2">
               <button class="btn btn-outline-secondary m-2">
